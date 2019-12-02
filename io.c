@@ -125,9 +125,12 @@ long ConvertBMP(BYTE * in,long in_size,int *in_w, int *in_h,int line)
 
         // Scanlines are stored bottom up!
         help = original;
-        pByte2 = in + inbmpfile->bfOffBits
-                 + inbmpinfo->bmiHeader.biSizeImage;  // Here end the pixels :)
 
+// old patch by nop90 
+//		pByte2 = in + inbmpfile->bfOffBits + inbmpinfo->bmiHeader.biSizeImage;  // Here end the pixels :)
+
+// new patch by kezax. This works with files exported by GIMP and files generated via devIL library
+		pByte2 = in + inbmpfile->bfSize; // we start from the end of the file to read lines from top to bottom
 
         if (bpl == 24)
 		{
